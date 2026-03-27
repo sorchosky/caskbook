@@ -9,9 +9,9 @@ export default {
       colors: {
         ink:      '#1A1612',
         espresso: '#2E2118',
-        amber:    '#C8813A',
+        amber:    '#A8651F',
         wheat:    '#EDD9B4',
-        cream:    '#FAF5EC',
+        cream:    '#FDF9F3',
         stone:    '#6B6059',
       },
       fontFamily: {

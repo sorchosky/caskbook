@@ -45,10 +45,10 @@ export default function BottleCard({ bottle, viewMode, onEdit, onDelete }) {
         {/* Rating */}
         {status === 'tried' && rating !== null && (
           <div className="flex items-baseline gap-0.5 flex-shrink-0">
-            <span className="font-sans font-bold text-[18px] leading-none text-amber">
+            <span className="font-sans font-bold text-[20px] leading-none text-amber">
               {rating}
             </span>
-            <span className="font-sans text-[10px] text-stone/60">/10</span>
+            <span className="font-sans text-[11px] text-stone">/10</span>
           </div>
         )}
 
@@ -74,7 +74,7 @@ export default function BottleCard({ bottle, viewMode, onEdit, onDelete }) {
       style={{
         borderColor: 'var(--rule)',
         backgroundImage:
-          'radial-gradient(circle at top right, rgba(200,129,58,0.07) 0%, transparent 60%)',
+          'radial-gradient(circle at top right, rgba(168,101,31,0.07) 0%, transparent 60%)',
       }}
       onClick={() => onEdit(bottle)}
     >

@@ -159,7 +159,7 @@ function EmptyState({ filter, onAddClick }) {
       </p>
       <button
         onClick={onAddClick}
-        className="font-sans font-semibold text-[13px] bg-amber hover:bg-amber/90 text-espresso px-5 py-[11px] rounded-md transition-colors"
+        className="font-sans font-semibold text-[13px] bg-amber hover:bg-amber/90 text-cream px-5 py-[11px] rounded-md transition-colors"
       >
         Add Bottle
       </button>
