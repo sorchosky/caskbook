@@ -46,7 +46,7 @@ export default function Header({ viewMode, onViewModeChange, onAddClick }) {
           {/* Add bottle */}
           <button
             onClick={onAddClick}
-            className="flex items-center gap-2 bg-amber hover:bg-amber/90 text-espresso font-sans font-semibold text-[13px] px-5 py-[11px] rounded-md transition-colors"
+            className="flex items-center gap-2 bg-amber hover:bg-amber/90 text-cream font-sans font-semibold text-[13px] px-5 py-[11px] rounded-md transition-colors"
           >
             <span className="text-base leading-none font-bold">+</span>
             <span className="hidden sm:inline">Add Bottle</span>
