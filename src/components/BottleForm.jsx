@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react'
 
 const BOTTLE_TYPES = ['bourbon', 'rye', 'scotch', 'irish', 'japanese', 'other']
 
-export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
+export default function BottleForm({ bottle, onSubmit, onClose, onDelete, initialData }) {
   const isEditing = bottle !== null
 
   const [formData, setFormData] = useState({
-    name:       bottle?.name       ?? '',
-    distillery: bottle?.distillery ?? '',
-    type:       bottle?.type       ?? 'bourbon',
-    proof:      bottle?.proof      ?? '',
+    name:       bottle?.name       ?? initialData?.name       ?? '',
+    distillery: bottle?.distillery ?? initialData?.distillery ?? '',
+    type:       bottle?.type       ?? initialData?.type       ?? 'bourbon',
+    proof:      bottle?.proof      ?? initialData?.proof      ?? '',
     price:      bottle?.price      ?? '',
-    status:     bottle?.status     ?? 'tried',
-    rating:     bottle?.rating     ?? 7,
+    status:     bottle?.status     ?? initialData?.status     ?? 'tried',
+    rating:     bottle?.rating     ?? null,
     notes:      bottle?.notes      ?? '',
   })
 
@@ -39,16 +39,16 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
     const { name, value, type } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        type === 'number' || type === 'range'
-          ? value === ''
-            ? ''
-            : Number(value)
-          : value,
+      [name]: type === 'number' ? (value === '' ? '' : Number(value)) : value,
     }))
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }))
     }
+  }
+
+  const handleRatingSelect = (value) => {
+    setFormData((prev) => ({ ...prev, rating: value }))
+    if (errors.rating) setErrors((prev) => ({ ...prev, rating: undefined }))
   }
 
   const validate = () => {
@@ -80,16 +80,16 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
 
   const inputClass = (field) =>
     [
-      'w-full bg-white/[0.04] border rounded-lg px-3 py-2.5',
-      'font-sans text-[14px] text-wheat placeholder-stone/40',
+      'w-full bg-ink/[0.04] border rounded-lg px-3 py-2.5',
+      'font-sans text-[14px] text-ink placeholder-stone/50',
       'focus:outline-none transition-colors',
       errors[field]
         ? 'border-red-400/50 focus:border-red-400/80'
-        : 'border-white/10 focus:border-amber/50',
+        : 'border-ink/10 focus:border-amber/50',
     ].join(' ')
 
   const labelClass =
-    'block font-sans font-semibold text-[10px] tracking-[0.14em] uppercase text-stone mb-1.5'
+    'block font-sans font-semibold text-[10px] tracking-[0.15em] uppercase text-stone mb-1.5'
 
   return (
     <div
@@ -99,20 +99,20 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
       }}
     >
       <div
-        className="bg-espresso border rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto cask-scroll flex flex-col"
-        style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+        className="bg-white border rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto cask-scroll flex flex-col"
+        style={{ borderColor: 'var(--rule)' }}
       >
         {/* Modal header */}
         <div
           className="flex items-center justify-between px-6 py-5 border-b flex-shrink-0"
-          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+          style={{ borderColor: 'var(--rule)' }}
         >
-          <h2 className="font-display font-[500] text-[22px] text-cream tracking-[-0.01em]">
+          <h2 className="font-display font-[500] text-[22px] text-ink tracking-[-0.01em]">
             {isEditing ? 'Edit Bottle' : 'Add Bottle'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-stone hover:text-wheat transition-colors"
+            className="p-2 rounded-lg text-stone hover:text-ink transition-colors"
             aria-label="Close"
           >
             <CloseIcon />
@@ -132,8 +132,8 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
                     'flex-1 text-center py-2.5 rounded-lg cursor-pointer border',
                     'font-sans font-medium text-[13px] capitalize transition-colors',
                     formData.status === s
-                      ? 'bg-amber border-amber text-espresso'
-                      : 'border-white/10 text-stone hover:border-amber/30 hover:text-wheat',
+                      ? 'bg-amber border-amber text-cream'
+                      : 'border-ink/10 text-stone hover:border-amber/30 hover:text-ink',
                   ].join(' ')}
                 >
                   <input
@@ -201,7 +201,7 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
               className={inputClass('type') + ' cursor-pointer'}
             >
               {BOTTLE_TYPES.map((t) => (
-                <option key={t} value={t} className="bg-espresso text-wheat">
+                <option key={t} value={t} className="bg-white text-ink">
                   {t.charAt(0).toUpperCase() + t.slice(1)}
                 </option>
               ))}
@@ -252,28 +252,29 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
           {/* Rating — tried only */}
           {formData.status === 'tried' && (
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <p className={labelClass}>Rating</p>
-                <div className="flex items-baseline gap-0.5">
-                  <span className="font-sans font-bold text-[20px] leading-none text-amber">
-                    {formData.rating}
-                  </span>
-                  <span className="font-sans text-[11px] text-stone">/10</span>
-                </div>
+              <p className={labelClass}>Rating</p>
+              <div className="flex gap-2 flex-wrap mt-2">
+                {[1,2,3,4,5,6,7,8,9,10].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => handleRatingSelect(n)}
+                    className={[
+                      'flex items-center justify-center rounded-full',
+                      'font-sans font-semibold text-[12px]',
+                      'w-9 h-9 border-[1.5px] border-amber transition-colors',
+                      formData.rating === n
+                        ? 'bg-amber text-cream'
+                        : 'bg-transparent text-amber',
+                    ].join(' ')}
+                    aria-pressed={formData.rating === n}
+                  >
+                    {n}
+                  </button>
+                ))}
               </div>
-              <input
-                type="range"
-                name="rating"
-                min={1}
-                max={10}
-                step={1}
-                value={formData.rating}
-                onChange={handleChange}
-                className="w-full cursor-pointer h-1"
-                style={{ accentColor: '#C8813A' }}
-              />
               {errors.rating && (
-                <p className="font-sans text-[11px] text-red-400 mt-1">{errors.rating}</p>
+                <p className="font-sans text-[11px] text-red-400 mt-2">{errors.rating}</p>
               )}
             </div>
           )}
@@ -299,7 +300,7 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
           {/* Footer */}
           <div
             className="flex items-center justify-between pt-4 border-t"
-            style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+            style={{ borderColor: 'var(--rule)' }}
           >
             {/* Delete (edit mode only) */}
             {onDelete ? (
@@ -318,14 +319,14 @@ export default function BottleForm({ bottle, onSubmit, onClose, onDelete }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="font-sans font-medium text-[13px] text-stone hover:text-wheat px-4 py-2.5 rounded-lg border transition-colors"
-                style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+                className="font-sans font-medium text-[13px] text-stone hover:text-ink px-4 py-2.5 rounded-lg border transition-colors"
+                style={{ borderColor: 'var(--rule)' }}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="font-sans font-semibold text-[13px] bg-amber hover:bg-amber/90 text-espresso px-5 py-2.5 rounded-lg transition-colors"
+                className="font-sans font-semibold text-[13px] bg-amber hover:bg-amber/90 text-cream px-5 py-2.5 rounded-lg transition-colors"
               >
                 {isEditing ? 'Save Changes' : 'Add Bottle'}
               </button>

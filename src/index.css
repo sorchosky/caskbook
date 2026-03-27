@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --rule: rgba(26, 22, 18, 0.12);
-    --glow: rgba(200, 129, 58, 0.2);
+    --glow: rgba(168, 101, 31, 0.2);
   }
 
   body {
@@ -23,7 +23,15 @@
   }
 
   .chip {
-    @apply font-sans font-medium text-[11px] text-wheat bg-white/[0.08] rounded-full px-3 py-1;
+    @apply font-sans font-medium text-[11px] text-stone bg-ink/[0.07] rounded-full px-3 py-1;
+  }
+
+  .chip-outline {
+    @apply font-sans font-medium text-[11px] text-stone border border-stone/30 rounded-full px-3 py-1;
+  }
+
+  .chip-amber {
+    @apply font-sans font-medium text-[11px] text-amber bg-amber/10 rounded-full px-3 py-1;
   }
 
   .cask-scroll {
