@@ -8,7 +8,7 @@ export default function Header({ viewMode, onViewModeChange, onAddClick }) {
         {/* Logo / title */}
         <div>
           <h1 className="font-display font-[500] text-2xl text-ink tracking-[-0.02em] leading-none">
-            CaskBook
+            BarrelNotes
           </h1>
           <p className="font-sans text-[10px] text-stone/60 tracking-[0.14em] uppercase mt-0.5">
             Digital Whiskey Log

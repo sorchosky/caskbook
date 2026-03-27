@@ -1,4 +1,4 @@
-# CaskBook
+# BarrelNotes
 
 Digital log for recording and reviewing whiskey. Built with React and Vite, deployed to Vercel via the `main` branch.
 
@@ -15,8 +15,8 @@ Digital log for recording and reviewing whiskey. Built with React and Vite, depl
 ## Getting Started
 
 ```bash
-git clone https://github.com/sorchosky/caskbook.git
-cd caskbook
+git clone https://github.com/sorchosky/barrelnotes.git
+cd barrelnotes
 npm install
 npm run dev
 ```

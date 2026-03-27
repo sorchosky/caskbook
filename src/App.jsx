@@ -5,11 +5,19 @@ import BottleCard from './components/BottleCard.jsx'
 import BottleForm from './components/BottleForm.jsx'
 import { SAMPLE_BOTTLES } from './data/sampleBottles.js'
 
-const STORAGE_KEY = 'whiskey-tracker-bottles'
+const STORAGE_KEY = 'barrelnotes-bottles'
 const VIEW_KEY    = 'whiskey-tracker-view'
 
 function generateId() {
   return `bottle-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+}
+
+// One-time migration: move data from old key to new key
+const LEGACY_KEY = 'whiskey-tracker-bottles'
+const legacyData = localStorage.getItem(LEGACY_KEY)
+if (legacyData !== null) {
+  localStorage.setItem(STORAGE_KEY, legacyData)
+  localStorage.removeItem(LEGACY_KEY)
 }
 
 export default function App() {
